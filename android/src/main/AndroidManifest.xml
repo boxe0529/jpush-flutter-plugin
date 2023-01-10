@@ -23,6 +23,23 @@
                 <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
+        
+        <receiver
+                    android:name="cn.jpush.android.service.PushReceiver"
+                    android:enabled="true"
+                    android:exported="false"
+                    tools:node="replace">
+                    <intent-filter android:priority="1000" >
+                        <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" /> <!-- Required  显示通知栏 -->
+                        <category android:name="${JPUSH_PKGNAME}" />
+                    </intent-filter>
+                    <intent-filter>
+                        <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                    </intent-filter>
+                </receiver>
+        
+        <receiver android:name="cn.jpush.android.service.AlarmReceiver"  tools:node=remove/>
+
         <!-- Since JCore2.0.0 Required SDK核心功能-->
         <!-- 可配置android:process参数将Service放在其他进程中；android:enabled属性不能是false -->
         <!-- 这个是自定义Service，要继承极光JCommonService，可以在更多手机平台上使得推送通道保持的更稳定 -->
@@ -34,6 +51,25 @@
                 <action android:name="cn.jiguang.user.service.action" />
             </intent-filter>
         </service>
+        
+        <service
+                    android:name="cn.jpush.android.service.DaemonService"
+                    android:enabled="true"
+                    android:exported="true"
+                    tools:node="remove">
+                    <intent-filter >
+                        <action android:name="cn.jpush.android.intent.DaemonService" />
+                        <category android:name="${applicationId}"/>
+                    </intent-filter>
+                </service>
+        
+        <provider
+                    android:authorities="${applicationId}.DownloadProvider"
+                    android:name="cn.jpush.android.service.DownloadProvider"
+                    android:exported="true"
+                    tools:node="remove"
+                    />
+        
     </application>
     <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE"/>
 </manifest>
