@@ -184,7 +184,8 @@ public class JPushPlugin implements FlutterPlugin, MethodCallHandler {
         boolean debug = (boolean) map.get("debug");
         JPushInterface.setDebugMode(debug);
 
-        JPushInterface.init(context);            // 初始化 JPush
+        JCoreInterface.setWakeEnable(context,false);
+        JPushInterface.init(this);
         JPushInterface.setNotificationCallBackEnable(context, true);
         String channel = (String) map.get("channel");
         JPushInterface.setChannel(context, channel);
